@@ -4,19 +4,11 @@ import os
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.document_loaders import PyMuPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter  # <- this stays in langchain
+from langchain.text_splitter import RecursiveCharacterTextSplitter 
 
 
 
 def ingest_documents(pdf_folder: str = "docs", persist_directory: str = "db"):
-    """
-    Ingests PDF documents from the specified folder, splits them into chunks,
-    and stores their vector embeddings using Chroma.
-
-    Args:
-        pdf_folder (str): Folder containing PDF files.
-        persist_directory (str): Directory where Chroma DB will be persisted.
-    """
     embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
     all_docs = []
@@ -37,7 +29,7 @@ def ingest_documents(pdf_folder: str = "docs", persist_directory: str = "db"):
     )
     vectordb.persist()
 
-    print(f"[✔] Ingested {len(all_docs)} chunks from {len(pdf_files)} PDFs.")
+    print(f"Ingested {len(all_docs)} chunks from {len(pdf_files)} PDFs.")
 
 
 if __name__ == "__main__":
